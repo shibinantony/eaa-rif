@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "source_label": "ORIGINAL_IP",
+  "evidence_id": "EVID-RELEASE-001",
+  "control_id": "CTRL-RELEASE-001",
+  "policy_id": "POL-DEPLOY-001",
+  "enforcement_point_id": "EP-CI-001",
+  "gate_decision_id": "GATE-RESTRICTED-PILOT-001",
+  "system_id": "SYS-BANK-AGENT-001",
+  "configuration_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "producer": "release-governance-gate",
+  "collector": "continuous-integration-runner",
+  "reviewer": "Independent Assurance Lead",
+  "collected_at": "2026-11-09T10:00:00Z",
+  "observation_window": "2026-11-09T09:30:00Z/2026-11-09T10:00:00Z",
+  "environment": "staging",
+  "scope": "Restricted-pilot release gate for the illustrative banking agent",
+  "population": "One release candidate and all mandatory policy tests",
+  "sample": "Complete release manifest, the defined OPA policy test suite, and linked registry records",
+  "claim": "The configuration-bound release control operated as designed for the evaluated release candidate.",
+  "expected_result": "Allow the complete release and deny digest, evidence, and control-state failures.",
+  "actual_result": "All positive and negative policy tests produced the expected decisions.",
+  "state": "pass",
+  "raw_evidence_ref": "ci://illustrative-run/eaa-rif-validation-001",
+  "integrity": {
+    "hash_algorithm": "sha256",
+    "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "signature_ref": "sigstore://illustrative/evidence-release-001",
+    "attestation_ref": "attestation://illustrative/eaa-rif-validation-001"
+  },
+  "trace_id": "TRACE-RELEASE-001",
+  "related_ids": [
+    "RISK-AGENCY-001",
+    "RISK-IAM-002",
+    "REQ-AUTH-001",
+    "REQ-EVIDENCE-001",
+    "POL-DEPLOY-001",
+    "EP-CI-001"
+  ],
+  "classification": "confidential",
+  "retention": "Organization-defined governance evidence schedule",
+  "quality": {
+    "provenance": "high",
+    "integrity": "high",
+    "freshness": "high",
+    "coverage": "moderate",
+    "representativeness": "moderate",
+    "independence": "moderate",
+    "interpretability": "high",
+    "limitations": [
+      "This synthetic example demonstrates control design evidence, not production operating effectiveness.",
+      "The record does not certify regulatory compliance or runtime model behavior."
+    ]
+  },
+  "validity": {
+    "valid_for": "The exact configuration digest and restricted-pilot scope only",
+    "expires_at": "2027-02-07T10:00:00Z",
+    "invalidation_triggers": [
+      "configuration digest change",
+      "policy change",
+      "control failure",
+      "material incident",
+      "authorization expiry"
+    ]
+  }
+}

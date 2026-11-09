@@ -1,0 +1,39 @@
+{
+  "registry_type": "risks",
+  "registry_version": "1.0.0",
+  "source_label": "ORIGINAL_IP",
+  "records": [
+    {
+      "risk_id": "RISK-AGENCY-001",
+      "title": "Unauthorized state change through excessive agency",
+      "scenario": "An agent, malicious context, or faulty orchestration causes an action outside verified user intent or the approved authority envelope, resulting in customer or institutional harm.",
+      "owner": "Retail Banking Executive",
+      "inherent_rating": "critical",
+      "target_residual_rating": "moderate",
+      "status": "treated",
+      "framework_mappings": [
+        {
+          "source_label": "DERIVED_MAPPING",
+          "framework": "NIST AI RMF 1.0",
+          "outcomes": ["MAP 3.3", "MAP 3.5", "MEASURE 2.7", "MANAGE 1.3", "MANAGE 2.4"]
+        }
+      ]
+    },
+    {
+      "risk_id": "RISK-IAM-002",
+      "title": "Identity or delegation failure",
+      "scenario": "A stale, replayed, confused, or over-broad identity delegation is used to authorize an AI-enabled action for the wrong subject, purpose, resource, or time window.",
+      "owner": "Identity and Access Management Owner",
+      "inherent_rating": "high",
+      "target_residual_rating": "moderate",
+      "status": "treated",
+      "framework_mappings": [
+        {
+          "source_label": "DERIVED_MAPPING",
+          "framework": "NIST AI RMF 1.0",
+          "outcomes": ["GOVERN 2.1", "MAP 4.2", "MEASURE 2.7", "MANAGE 1.3"]
+        }
+      ]
+    }
+  ]
+}

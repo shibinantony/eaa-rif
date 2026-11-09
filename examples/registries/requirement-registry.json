@@ -1,0 +1,21 @@
+{
+  "registry_type": "requirements",
+  "registry_version": "1.0.0",
+  "source_label": "ORIGINAL_IP",
+  "records": [
+    {
+      "requirement_id": "REQ-AUTH-001",
+      "statement": "A consequential AI configuration shall not be released unless its configuration digest matches the approved authorization and the release is within the approved scope and validity period.",
+      "owner": "AI Governance Board",
+      "priority": "mandatory",
+      "verification": "Automated deployment policy plus independent release review"
+    },
+    {
+      "requirement_id": "REQ-EVIDENCE-001",
+      "statement": "Every required critical control shall have a passing state and fresh, configuration-matched evidence before a high-consequence release can proceed.",
+      "owner": "Independent Assurance Lead",
+      "priority": "mandatory",
+      "verification": "Schema validation, traceability validation, policy unit tests, and release-gate evaluation"
+    }
+  ]
+}

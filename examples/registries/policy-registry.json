@@ -1,0 +1,17 @@
+{
+  "registry_type": "policies",
+  "registry_version": "1.0.0",
+  "source_label": "ORIGINAL_IP",
+  "records": [
+    {
+      "policy_id": "POL-DEPLOY-001",
+      "title": "Configuration-bound AI deployment gate",
+      "description": "Illustrative OPA/Rego implementation that evaluates trusted release metadata, control state, evidence freshness, independent assurance, residual-risk acceptance, and exceptions.",
+      "control_ids": ["CTRL-RELEASE-001"],
+      "enforcement_point_ids": ["EP-CI-001"],
+      "implementation": "examples/policy-as-code/opa/agent_deployment_gate.rego",
+      "version": "1.0.0",
+      "status": "active"
+    }
+  ]
+}

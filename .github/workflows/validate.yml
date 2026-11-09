@@ -1,0 +1,123 @@
+name: Validate executable governance assets
+
+on:
+  push:
+    paths:
+      - ".github/workflows/validate.yml"
+      - "schemas/**"
+      - "examples/**"
+      - "tools/**"
+      - "tests/**"
+  pull_request:
+    paths:
+      - ".github/workflows/validate.yml"
+      - "schemas/**"
+      - "examples/**"
+      - "tools/**"
+      - "tests/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  traceability:
+    name: JSON, schemas, registries and assurance thread
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate traceability package
+        run: python tools/validate_traceability.py --root .
+
+      - name: Run validator tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+  opa:
+    name: OPA policy format, tests and fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up OPA
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: "1.1.0"
+
+      - name: Check Rego formatting
+        run: >-
+          opa fmt --fail
+          examples/policy-as-code/opa/agent_deployment_gate.rego
+          examples/policy-as-code/opa/agent_deployment_gate_test.rego
+
+      - name: Run Rego unit tests
+        run: >-
+          opa test
+          examples/policy-as-code/opa/agent_deployment_gate.rego
+          examples/policy-as-code/opa/agent_deployment_gate_test.rego
+          -v
+
+      - name: Confirm allow fixture
+        shell: bash
+        run: |
+          result="$(opa eval --format=raw \
+            --data examples/policy-as-code/opa/agent_deployment_gate.rego \
+            --input examples/policy-as-code/opa/input-allow.json \
+            'data.eaa_rif.deployment.allow')"
+          test "$result" = "true"
+
+      - name: Confirm deny fixture
+        shell: bash
+        run: |
+          result="$(opa eval --format=raw \
+            --data examples/policy-as-code/opa/agent_deployment_gate.rego \
+            --input examples/policy-as-code/opa/input-deny.json \
+            'data.eaa_rif.deployment.allow')"
+          test "$result" = "false"
+
+  terraform:
+    name: Provider-free Terraform governance check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: Check Terraform formatting
+        run: terraform -chdir=examples/policy-as-code/terraform fmt -check -recursive
+
+      - name: Initialize without a backend
+        run: terraform -chdir=examples/policy-as-code/terraform init -backend=false
+
+      - name: Validate Terraform configuration
+        run: terraform -chdir=examples/policy-as-code/terraform validate
+
+      - name: Confirm allowed release passes
+        run: >-
+          terraform -chdir=examples/policy-as-code/terraform plan
+          -input=false
+          -refresh=false
+          -var-file=allow.tfvars.json
+
+      - name: Confirm denied release is blocked
+        shell: bash
+        run: |
+          if terraform -chdir=examples/policy-as-code/terraform plan \
+            -input=false \
+            -refresh=false \
+            -var-file=deny.tfvars.json; then
+            echo "::error::The negative Terraform fixture unexpectedly passed."
+            exit 1
+          fi
+          echo "The negative Terraform fixture was blocked as expected."

@@ -1,0 +1,39 @@
+{
+  "system": {
+    "system_id": "SYS-BANK-AGENT-001",
+    "impact_tier": "high",
+    "risk_tier": "high",
+    "agent_authority": "A3",
+    "lifecycle_state": "restricted_pilot",
+    "configuration_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "release": {
+    "target_environment": "production",
+    "configuration_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "approved_configuration_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "allowed_agent_authority": "A3",
+    "required_control_ids": ["CTRL-RELEASE-001"],
+    "satisfied_control_ids": ["CTRL-RELEASE-001"],
+    "control_states": {
+      "CTRL-RELEASE-001": "fail"
+    },
+    "evidence": [
+      {
+        "evidence_id": "EVID-RELEASE-001",
+        "control_id": "CTRL-RELEASE-001",
+        "state": "pass",
+        "configuration_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "expires_at": "2026-11-01T00:00:00Z"
+      }
+    ],
+    "approval": {
+      "decision": "restricted_pilot",
+      "configuration_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "expires_at": "2027-02-07T10:15:00Z",
+      "independent_assurance": "approved",
+      "residual_risk": "accepted_with_conditions"
+    },
+    "exceptions": []
+  },
+  "now": "2026-11-09T10:30:00Z"
+}

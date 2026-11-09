@@ -1,0 +1,15 @@
+{
+  "registry_type": "enforcement_points",
+  "registry_version": "1.0.0",
+  "source_label": "ORIGINAL_IP",
+  "records": [
+    {
+      "enforcement_point_id": "EP-CI-001",
+      "title": "Release pipeline governance gate",
+      "type": "deployment_gate",
+      "owner": "Platform Engineering",
+      "failure_behavior": "fail_closed",
+      "description": "Blocks promotion when the policy decision is deny or the decision service is unavailable. This example does not replace runtime authorization."
+    }
+  ]
+}

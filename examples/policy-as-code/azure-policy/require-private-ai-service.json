@@ -1,0 +1,58 @@
+{
+  "properties": {
+    "displayName": "Illustrative: require private network access for Azure OpenAI accounts",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Implementation example for an infrastructure control. It audits or denies Azure OpenAI accounts when public network access is not explicitly disabled. It does not govern prompts, model behavior, data entitlements, or transaction authorization.",
+    "metadata": {
+      "category": "AI Governance",
+      "version": "1.0.0",
+      "source_label": "ORIGINAL_IP",
+      "eaaRifControlObjective": "Restrict the network exposure of an approved AI service endpoint"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit first, then move to deny after impact assessment and remediation."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.CognitiveServices/accounts"
+          },
+          {
+            "field": "kind",
+            "equals": "OpenAI"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.CognitiveServices/accounts/publicNetworkAccess",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.CognitiveServices/accounts/publicNetworkAccess",
+                "notEquals": "Disabled"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

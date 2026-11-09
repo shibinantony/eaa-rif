@@ -1,0 +1,19 @@
+{
+  "registry_type": "systems",
+  "registry_version": "1.0.0",
+  "source_label": "ORIGINAL_IP",
+  "records": [
+    {
+      "system_id": "SYS-BANK-AGENT-001",
+      "name": "Illustrative Customer Service Action Agent",
+      "description": "Vendor-neutral sample system used to demonstrate configuration-bound governance and assurance traceability.",
+      "business_owner": "Retail Banking Executive",
+      "product_owner": "AI Product Owner",
+      "impact_tier": "high",
+      "risk_tier": "high",
+      "agent_authority": "A3",
+      "lifecycle_state": "restricted_pilot",
+      "configuration_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  ]
+}

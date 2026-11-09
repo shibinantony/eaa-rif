@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "source_label": "ORIGINAL_IP",
+  "control_id": "CTRL-RELEASE-001",
+  "objective": "Prevent a high-consequence AI configuration from deployment without configuration-bound authorization, passing critical controls, and fresh evidence.",
+  "risk_ids": ["RISK-AGENCY-001", "RISK-IAM-002"],
+  "source_requirement_ids": ["REQ-AUTH-001", "REQ-EVIDENCE-001"],
+  "system_scope": ["SYS-BANK-AGENT-001"],
+  "impact_tier": "high",
+  "risk_tier": "high",
+  "agent_authority": "A3",
+  "control_owner": "AI Release Governance Owner",
+  "operator": "Platform Engineering",
+  "control_type": "preventive",
+  "execution_mode": "automated",
+  "lifecycle_points": ["build", "deploy"],
+  "enforcement_point_ids": ["EP-CI-001"],
+  "policy_ids": ["POL-DEPLOY-001"],
+  "trusted_inputs": [
+    {
+      "name": "release_manifest",
+      "schema": "eaa-rif-release-input-v1",
+      "authoritative_source": "signed-release-orchestrator",
+      "freshness": "per release",
+      "classification": "internal",
+      "sensitive": false
+    },
+    {
+      "name": "assurance_thread",
+      "schema": "schemas/assurance-thread.schema.json",
+      "authoritative_source": "governance-registry",
+      "freshness": "must cover the release configuration digest",
+      "classification": "confidential",
+      "sensitive": true
+    }
+  ],
+  "decision_logic": "Deny unless configuration, control states, fresh evidence, approval, independent assurance, residual-risk acceptance, and any exception all satisfy the release profile.",
+  "parameters": {
+    "authorizing_decisions": ["restricted_pilot", "authorized", "authorized_with_conditions"],
+    "passing_control_state": "pass",
+    "high_consequence_tiers": ["high", "critical"]
+  },
+  "expected_result": "Only a specifically authorized and evidenced configuration can pass the deployment gate.",
+  "test_cases": [
+    {
+      "test_id": "TEST-RELEASE-ALLOW-001",
+      "class": "allow",
+      "expected": "A complete, configuration-matched release is allowed."
+    },
+    {
+      "test_id": "TEST-RELEASE-DIGEST-002",
+      "class": "deny",
+      "expected": "A configuration digest mismatch is denied."
+    },
+    {
+      "test_id": "TEST-RELEASE-EVIDENCE-003",
+      "class": "stale",
+      "expected": "Expired or configuration-mismatched evidence is denied."
+    },
+    {
+      "test_id": "TEST-RELEASE-CONTROL-004",
+      "class": "bypass",
+      "expected": "A missing or failed required control is denied."
+    }
+  ],
+  "evidence_contract": {
+    "record_schema": "schemas/evidence-record.schema.json",
+    "producer": "release-governance-gate",
+    "frequency": "every release decision",
+    "freshness_limit": "defined by the evidence record and authorization",
+    "retention_classification": "governance-decision-record",
+    "required_fields": [
+      "evidence_id",
+      "control_id",
+      "system_id",
+      "configuration_digest",
+      "state",
+      "collected_at",
+      "validity.expires_at",
+      "integrity.hash"
+    ]
+  },
+  "failure_behavior": "fail_closed",
+  "dependencies": ["governance-registry", "policy-decision-point", "release-orchestrator"],
+  "exception": {
+    "allowed": true,
+    "maximum_duration": "P14D",
+    "required_compensating_controls": ["Independent approval", "Time-bounded scope", "Verified compensating control"]
+  },
+  "version": "1.0.0",
+  "effective_date": "2026-11-09",
+  "approval": {
+    "approver": "AI Release Governance Owner",
+    "approved_on": "2026-11-09T09:00:00Z",
+    "signature_ref": "sigstore://illustrative/control-release-001"
+  },
+  "review_triggers": [
+    "policy change",
+    "risk-tier change",
+    "material configuration change",
+    "control failure",
+    "incident",
+    "exception expiry"
+  ]
+}

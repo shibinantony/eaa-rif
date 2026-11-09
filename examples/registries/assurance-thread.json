@@ -1,0 +1,270 @@
+{
+  "schema_version": "1.0.0",
+  "source_label": "ORIGINAL_IP",
+  "thread_id": "THREAD-BANK-AGENT-001",
+  "generated_at": "2026-11-09T10:30:00Z",
+  "eaa_rif_version": "0.1.0",
+  "system": {
+    "system_id": "SYS-BANK-AGENT-001",
+    "name": "Illustrative Customer Service Action Agent",
+    "business_owner": "Retail Banking Executive",
+    "product_owner": "AI Product Owner",
+    "impact_tier": "high",
+    "risk_tier": "high",
+    "agent_authority": "A3",
+    "lifecycle_state": "restricted_pilot",
+    "configuration_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "source_baselines": [
+    {
+      "name": "NIST AI Risk Management Framework",
+      "version": "AI RMF 1.0 / NIST AI 100-1",
+      "url": "https://doi.org/10.6028/NIST.AI.100-1",
+      "accessed_on": "2026-11-09"
+    },
+    {
+      "name": "TOGAF Standard",
+      "version": "10th Edition overview",
+      "url": "https://help.opengroup.org/hc/en-us/articles/32726995273362-Understanding-the-TOGAF-Standard",
+      "accessed_on": "2026-11-09"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "OBJ-CUSTOMER-SERVICE-001",
+      "type": "business_objective",
+      "title": "Improve customer-service speed without unauthorized financial action",
+      "owner": "Retail Banking Executive",
+      "status": "approved",
+      "version": "1.0",
+      "attributes": {
+        "measure": "Service time and unauthorized-action rate"
+      }
+    },
+    {
+      "id": "PRINCIPLE-DETERMINISTIC-AUTH-001",
+      "type": "architecture_principle",
+      "title": "Probabilistic systems propose and deterministic services authorize",
+      "owner": "Enterprise Architecture",
+      "status": "approved",
+      "version": "1.0",
+      "attributes": {
+        "source_label": "ORIGINAL_IP"
+      }
+    },
+    {
+      "id": "ADR-ACTION-BOUNDARY-001",
+      "type": "architecture_decision",
+      "title": "Place a deterministic authorization boundary before consequential action",
+      "owner": "AI Architecture",
+      "status": "approved",
+      "version": "1.0",
+      "attributes": {
+        "decision_record": "templates/architecture-decision-record.md"
+      }
+    },
+    {
+      "id": "RISK-AGENCY-001",
+      "type": "risk",
+      "title": "Unauthorized state change through excessive agency",
+      "owner": "Retail Banking Executive",
+      "status": "active",
+      "version": "1.0",
+      "attributes": {
+        "registry_ref": "examples/registries/risk-registry.json"
+      }
+    },
+    {
+      "id": "RISK-IAM-002",
+      "type": "risk",
+      "title": "Identity or delegation failure",
+      "owner": "Identity and Access Management Owner",
+      "status": "active",
+      "version": "1.0",
+      "attributes": {
+        "registry_ref": "examples/registries/risk-registry.json"
+      }
+    },
+    {
+      "id": "REQ-AUTH-001",
+      "type": "requirement",
+      "title": "Configuration-bound release authorization",
+      "owner": "AI Governance Board",
+      "status": "approved",
+      "version": "1.0",
+      "attributes": {
+        "registry_ref": "examples/registries/requirement-registry.json"
+      }
+    },
+    {
+      "id": "REQ-EVIDENCE-001",
+      "type": "requirement",
+      "title": "Fresh evidence for every required critical control",
+      "owner": "Independent Assurance Lead",
+      "status": "approved",
+      "version": "1.0",
+      "attributes": {
+        "registry_ref": "examples/registries/requirement-registry.json"
+      }
+    },
+    {
+      "id": "CTRL-RELEASE-001",
+      "type": "control",
+      "title": "Configuration-bound release gate",
+      "owner": "AI Release Governance Owner",
+      "status": "active",
+      "version": "1.0.0",
+      "attributes": {
+        "contract_ref": "examples/registries/control-contract.json"
+      }
+    },
+    {
+      "id": "POL-DEPLOY-001",
+      "type": "policy",
+      "title": "OPA deployment-gate policy",
+      "owner": "Platform Engineering",
+      "status": "active",
+      "version": "1.0.0",
+      "attributes": {
+        "implementation": "examples/policy-as-code/opa/agent_deployment_gate.rego"
+      }
+    },
+    {
+      "id": "EP-CI-001",
+      "type": "enforcement_point",
+      "title": "Release pipeline governance gate",
+      "owner": "Platform Engineering",
+      "status": "active",
+      "version": "1.0",
+      "attributes": {
+        "failure_behavior": "fail_closed"
+      }
+    },
+    {
+      "id": "EVID-RELEASE-001",
+      "type": "evidence",
+      "title": "Release policy and traceability validation evidence",
+      "owner": "Independent Assurance Lead",
+      "status": "approved",
+      "version": "1.0",
+      "attributes": {
+        "record_ref": "examples/registries/evidence-record.json",
+        "state": "pass"
+      }
+    },
+    {
+      "id": "GATE-RESTRICTED-PILOT-001",
+      "type": "gate_decision",
+      "title": "Restricted-pilot authorization",
+      "owner": "AI Release Authority",
+      "status": "approved",
+      "version": "1.0",
+      "attributes": {
+        "decision": "restricted_pilot"
+      }
+    },
+    {
+      "id": "ACTOR-BUSINESS-OWNER-001",
+      "type": "actor",
+      "title": "Accountable business risk owner",
+      "owner": "Retail Banking Executive",
+      "status": "active",
+      "version": "1.0",
+      "attributes": {
+        "decision_right": "Residual business-risk acceptance within delegated authority"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "OBJ-CUSTOMER-SERVICE-001",
+      "relationship": "motivates",
+      "to": "PRINCIPLE-DETERMINISTIC-AUTH-001"
+    },
+    {
+      "from": "PRINCIPLE-DETERMINISTIC-AUTH-001",
+      "relationship": "constrains",
+      "to": "ADR-ACTION-BOUNDARY-001"
+    },
+    {
+      "from": "ADR-ACTION-BOUNDARY-001",
+      "relationship": "creates_risk",
+      "to": "RISK-AGENCY-001"
+    },
+    {
+      "from": "ADR-ACTION-BOUNDARY-001",
+      "relationship": "creates_risk",
+      "to": "RISK-IAM-002"
+    },
+    {
+      "from": "RISK-AGENCY-001",
+      "relationship": "requires",
+      "to": "REQ-AUTH-001"
+    },
+    {
+      "from": "RISK-IAM-002",
+      "relationship": "requires",
+      "to": "REQ-AUTH-001"
+    },
+    {
+      "from": "RISK-AGENCY-001",
+      "relationship": "requires",
+      "to": "REQ-EVIDENCE-001"
+    },
+    {
+      "from": "REQ-AUTH-001",
+      "relationship": "requires",
+      "to": "CTRL-RELEASE-001"
+    },
+    {
+      "from": "REQ-EVIDENCE-001",
+      "relationship": "requires",
+      "to": "CTRL-RELEASE-001"
+    },
+    {
+      "from": "CTRL-RELEASE-001",
+      "relationship": "implemented_by",
+      "to": "POL-DEPLOY-001"
+    },
+    {
+      "from": "POL-DEPLOY-001",
+      "relationship": "enforced_at",
+      "to": "EP-CI-001"
+    },
+    {
+      "from": "EP-CI-001",
+      "relationship": "produces_evidence",
+      "to": "EVID-RELEASE-001"
+    },
+    {
+      "from": "EVID-RELEASE-001",
+      "relationship": "supports_decision",
+      "to": "GATE-RESTRICTED-PILOT-001"
+    },
+    {
+      "from": "ACTOR-BUSINESS-OWNER-001",
+      "relationship": "accepts",
+      "to": "GATE-RESTRICTED-PILOT-001"
+    }
+  ],
+  "authorization": {
+    "gate_decision_id": "GATE-RESTRICTED-PILOT-001",
+    "decision": "restricted_pilot",
+    "authority": "AI Release Authority",
+    "scope": "Restricted pilot for verified own-account transfers within the approved A3 envelope",
+    "configuration_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "decided_at": "2026-11-09T10:15:00Z",
+    "expires_at": "2027-02-07T10:15:00Z",
+    "conditions": [
+      "Pilot population and transaction limits remain in force",
+      "Any material configuration change triggers reassessment",
+      "A critical control failure suspends state-changing actions"
+    ],
+    "evidence_ids": ["EVID-RELEASE-001"],
+    "residual_risk": {
+      "decision": "accepted_with_conditions",
+      "owner": "Retail Banking Executive",
+      "decided_at": "2026-11-09T10:10:00Z"
+    }
+  }
+}

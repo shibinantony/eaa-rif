@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: "EAA-RIF: Enterprise AI Architecture & Risk Integration Framework"
+message: "If you use EAA-RIF, cite the repository release, record the source-framework versions used, and consult LICENSE-DOCS.md and LICENSE-CODE for the split licensing terms."
+type: software
+version: 0.1.0
+date-released: 2026-11-09
+authors:
+  - family-names: Antony
+    given-names: Shibin
+repository-code: "https://github.com/shibinantony/eaa-rif"
+abstract: >-
+  EAA-RIF uses split licensing. Original documentation, templates, and diagrams
+  are licensed under CC BY 4.0 as described in LICENSE-DOCS.md. Code is licensed
+  under Apache License 2.0 as described in LICENSE-CODE. Third-party materials
+  remain subject to their respective rights.
+keywords:
+  - enterprise architecture
+  - AI governance
+  - NIST AI RMF
+  - TOGAF
+  - policy as code
+  - agentic AI
+  - AI assurance
